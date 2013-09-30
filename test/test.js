@@ -3,6 +3,7 @@
 var path    = require('path');
 var helpers = require('yeoman-generator').test;
 var assert  = require('assert');
+var fs = require('fs');
 
 
 describe('Webapp generator test', function () {
@@ -27,53 +28,15 @@ describe('Webapp generator test', function () {
     this.app = require('../app');
   });
 
-  it('creates expected files in non-AMD mode', function (done) {
-    var expected = [
-      ['bower.json', /"name": "temp"/],
-      ['package.json', /"name": "temp"/],
-      ['Gruntfile.js', /coffee:/],
-      'app/404.html',
-      'app/favicon.ico',
-      'app/robots.txt',
-      'app/index.html',
-      'app/scripts/hello.coffee',
-      'app/scripts/main.js',
-      'app/styles/main.scss'
-    ];
-
+  it('should add the CDN update configuration', function (done) {
+    // not testing the actual run of generators yet
+    this.app = require('../app');
     helpers.mockPrompt(this.webapp, {
-      features: ['compassBootstrap', 'includeRequireJS']
+      project: 'test-app'
     });
-
-    this.webapp.coffee = true;
     this.webapp.options['skip-install'] = true;
     this.webapp.run({}, function () {
-      helpers.assertFiles(expected);
-      done();
-    });
-  });
-
-  it('creates expected files in non-AMD non-coffee mode', function (done) {
-    var expected = [
-      ['bower.json', /"name": "temp"/],
-      ['package.json', /"name": "temp"/],
-      'Gruntfile.js',
-      'app/404.html',
-      'app/favicon.ico',
-      'app/robots.txt',
-      'app/index.html',
-      'app/scripts/main.js',
-      'app/styles/main.scss'
-    ];
-
-    helpers.mockPrompt(this.webapp, {
-      features: ['compassBootstrap', 'includeRequireJS']
-    });
-
-    this.webapp.coffee = false;
-    this.webapp.options['skip-install'] = true;
-    this.webapp.run({}, function () {
-      helpers.assertFiles(expected);
+      helpers.assertFile('GruntFile.js', /cdn: 'http:\/\/test-app\.theglobalmail\.org/);
       done();
     });
   });
@@ -83,7 +46,6 @@ describe('Webapp generator test', function () {
       ['bower.json', /"name": "temp"/],
       ['package.json', /"name": "temp"/],
       'Gruntfile.js',
-      'app/404.html',
       'app/favicon.ico',
       'app/robots.txt',
       'app/index.html',
@@ -92,7 +54,7 @@ describe('Webapp generator test', function () {
     ];
 
     helpers.mockPrompt(this.webapp, {
-      features: ['compassBootstrap', 'includeRequireJS']
+      project: 'test-app'
     });
 
     this.webapp.options['skip-install'] = true;

@@ -1,10 +1,6 @@
 Description:
     Creates a new basic front-end web application.
 
-Options:
-    Twitter Bootstrap: Include Twitter Bootstrap for Sass
-    RequireJS: Add support for AMD-loading via RequireJS
-
 Example:
     yo webapp [--coffee]
 

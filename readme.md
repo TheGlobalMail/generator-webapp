@@ -1,6 +1,17 @@
-# Web app generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-webapp.png?branch=master)](http://travis-ci.org/yeoman/generator-webapp)
+# The Global Mail Web app generator
 
-Yeoman generator that scaffolds out a front-end web app.
+Yeoman generator that scaffolds out a front-end web app for The Global Mail
+news apps and visualisations.
+
+## TODO
+
+* Add favicon
+* add styles
+* add header
+* add cdn url 
+* add iframe 
+* add deploy to aws
+* add sharing (lazy load) 
 
 ## Features
 

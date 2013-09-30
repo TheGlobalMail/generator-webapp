@@ -12,6 +12,11 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
   this.testFramework = options['test-framework'] || 'mocha';
   this.coffee = options.coffee;
 
+  // Deafults for project
+  this.compassBootstrap = true;
+  this.includeRequireJS = true;
+  this.includeModernizr = true;
+
   // for hooks to resolve on mocha by default
   if (!options['test-framework']) {
     options['test-framework'] = 'mocha';
@@ -40,39 +45,25 @@ AppGenerator.prototype.askFor = function askFor() {
   // welcome message
   if (!this.options['skip-welcome-message']) {
     console.log(this.yeoman);
-    console.log('Out of the box I include HTML5 Boilerplate and jQuery.');
+    console.log('This is the generator for news apps and visualisations for The Global Mail.');
   }
 
   var prompts = [{
-    type: 'checkbox',
-    name: 'features',
-    message: 'What more would you like?',
-    choices: [{
-      name: 'Bootstrap for Sass',
-      value: 'compassBootstrap',
-      checked: true
-    }, {
-      name: 'RequireJS',
-      value: 'includeRequireJS',
-      checked: true
-    }, {
-      name: 'Modernizr',
-      value: 'includeModernizr',
-      checked: true
-    }]
+    name: 'project',
+    message: 'What is the short name for the project?',
+    default: this.appname,
+    required: true,
+    validate: function(input){
+      if (!input.match(/^[a-zA-Z0-9-_]+$/)){
+        return 'Only use alphanumerics and dashes and underscores';
+      }
+      return true;
+    }
   }];
 
   this.prompt(prompts, function (answers) {
-    var features = answers.features;
-
-    function hasFeature(feat) { return features.indexOf(feat) !== -1; }
-
-    // manually deal with the response, get back and store the results.
-    // we change a bit this way of doing to automatically do this in the self.prompt() method.
-    this.compassBootstrap = hasFeature('compassBootstrap');
-    this.includeRequireJS = hasFeature('includeRequireJS');
-    this.includeModernizr = hasFeature('includeModernizr');
-
+    this.project = answers.project;
+    console.error("GOT PROEJEC========== " + this.project)
     cb();
   }.bind(this));
 };
@@ -105,9 +96,7 @@ AppGenerator.prototype.editorConfig = function editorConfig() {
 
 AppGenerator.prototype.h5bp = function h5bp() {
   this.copy('favicon.ico', 'app/favicon.ico');
-  this.copy('404.html', 'app/404.html');
   this.copy('robots.txt', 'app/robots.txt');
-  this.copy('htaccess', 'app/.htaccess');
 };
 
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {

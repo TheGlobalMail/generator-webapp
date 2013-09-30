@@ -52,8 +52,8 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 livereload: 35729,
-                // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                // Allow access from other machiens
+                hostname: '0.0.0.0'
             },
             livereload: {
                 options: {
@@ -220,7 +220,7 @@ module.exports = function (grunt) {
                     src: [
                         '<%%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                        '<%%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                         '<%%= yeoman.dist %>/styles/fonts/{,*/}*.*'
                     ]
                 }
@@ -306,8 +306,7 @@ module.exports = function (grunt) {
                     dest: '<%%= yeoman.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        '.htaccess',
-                        'images/{,*/}*.{webp,gif}',
+                        'images/{,*/}*.{webp,gif,svg}',
                         'styles/fonts/{,*/}*.*'<% if (compassBootstrap) { %>,
                         'bower_components/sass-bootstrap/fonts/*.*'<% } %>
                     ]
@@ -319,6 +318,16 @@ module.exports = function (grunt) {
                 cwd: '<%%= yeoman.app %>/styles',
                 dest: '.tmp/styles/',
                 src: '{,*/}*.css'
+            }
+        },
+        cdn: {
+            dist: {
+                src: ['<%%= yeoman.dist %>/*.html', './<%%= yeoman.dist %>/styles/*.css'],
+                cdn: 'http://<%=project %>.theglobalmail.org'
+            },
+            staging: {
+                src: ['<%%= cdn.dist.src %>'],
+                cdn: 'http://<%=project %>-staging.theglobalmail.org'
             }
         },<% if (includeModernizr) { %>
         modernizr: {
