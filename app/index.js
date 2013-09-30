@@ -51,7 +51,7 @@ AppGenerator.prototype.askFor = function askFor() {
   var prompts = [{
     name: 'project',
     message: 'What is the short name for the project?',
-    default: this.appname,
+    default: this.appname.replace(/ /g, '-'),
     required: true,
     validate: function(input){
       if (!input.match(/^[a-zA-Z0-9-_]+$/)){
@@ -63,7 +63,6 @@ AppGenerator.prototype.askFor = function askFor() {
 
   this.prompt(prompts, function (answers) {
     this.project = answers.project;
-    console.error("GOT PROEJEC========== " + this.project)
     cb();
   }.bind(this));
 };
@@ -99,9 +98,20 @@ AppGenerator.prototype.h5bp = function h5bp() {
   this.copy('robots.txt', 'app/robots.txt');
 };
 
+AppGenerator.prototype.images = function images() {
+  this.copy('loader.svg', 'app/images/loader.svg');
+};
+
+AppGenerator.prototype.tgmStyles = function tgmStyles() {
+  this.copy('tgm-base.scss', 'app/styles/tgm-base.scss');
+  this.copy('tgm-mixins.scss', 'app/styles/tgm-mixins.scss');
+  this.copy('tgm-responsive.scss', 'app/styles/tgm-responsive.scss');
+};
+
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
   if (this.compassBootstrap) {
     this.copy('main.scss', 'app/styles/main.scss');
+    this.copy('app.scss', 'app/styles/app.scss');
   } else {
     this.copy('main.css', 'app/styles/main.css');
   }

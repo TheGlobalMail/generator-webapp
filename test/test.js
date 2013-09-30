@@ -50,7 +50,8 @@ describe('Webapp generator test', function () {
       'app/robots.txt',
       'app/index.html',
       ['app/scripts/main.js', /require\.config/],
-      'app/styles/main.scss'
+      'app/styles/main.scss',
+      'app/images/loader.svg'
     ];
 
     helpers.mockPrompt(this.webapp, {

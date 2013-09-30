@@ -1,5 +1,5 @@
 {
-  "name": "<%= _.slugify(appname) %>",
+  "name": "<%= _.slugify(project) %>",
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
@@ -31,6 +31,7 @@
     "time-grunt": "~0.1.1",
     "grunt-cdn": "git://github.com/bxjx/grunt-cdn.git#requirejs_support"
   },
+  "contributors": ["The Global Mail <info@theglobalmail.org>"],
   "engines": {
     "node": ">=0.8.0"
   }

@@ -1,0 +1,297 @@
+// variable for breakpoints
+$smallerWidth:  680px;    // Phones
+$smallWidth:    780px;    // Big phones, small tablets
+$medWidth:      980px;    // Portrait tablets
+$bigWidth:      1120px;   // Landscape tablets, smaller screens
+$biggerWidth:   $bigWidth + 1px;   // Big screens (default, used as min-width)
+
+$medScreenMargin: 20px;
+$smlScreenMargin: 10px;
+
+@mixin responsiveBG($imgName) {
+  $imgBase: "/images/#{$imgName}-size";
+  // default to the largest image
+  background-image: url("#{$imgBase}5.jpg");
+  //    @media only screen and (min-width: $biggerWidth)  { background-image: url("${imgBase}5.jpg"); }
+  @media only screen and (max-width: $bigWidth)     { background-image: url("#{$imgBase}4.jpg"); }
+  @media only screen and (max-width: $medWidth)     { background-image: url("#{$imgBase}3.jpg"); }
+  @media only screen and (max-width: $smallWidth)   { background-image: url("#{$imgBase}2.jpg"); }
+  @media only screen and (max-width: $smallerWidth) { background-image: url("#{$imgBase}1.jpg"); }
+}
+
+@mixin responsiveBGInArticle($imgName) {
+  $imgBase: "/images/#{$imgName}-size";
+  // default to the largest image
+  background-image: url("#{$imgBase}4.jpg");
+  @media only screen and (max-width: $medWidth)     { background-image: url("#{$imgBase}3.jpg"); }
+  @media only screen and (max-width: $smallWidth)   { background-image: url("#{$imgBase}2.jpg"); }
+  @media only screen and (max-width: $smallerWidth) { background-image: url("#{$imgBase}1.jpg"); }
+}
+
+// iPad Landscape & smaller screens
+@media only screen and (max-width: $bigWidth) {
+	.article-header {
+		.header {
+			letter-spacing: 0.4em;
+			padding-bottom: 0;
+		}
+	}
+
+	.article-nav-container .nav-extra,
+	.article-nav .article-nav-title  {
+		font-size: 1.2em;
+	}
+
+	article {
+	  &.introduction {
+	    .article-header {
+	      .header {
+			top: 37%;
+	      }
+	  	}
+	  }
+	}
+
+	.content {
+		padding-top: 0;
+		.pull-quote.pull-left 	{ margin-left: $medScreenMargin; }
+		.pull-quote.pull-right  { margin-right: $medScreenMargin; }
+		.pull-quote.large-image { max-width: 94%; }
+		.pull-quote.text 		{ max-width: 94%; }
+	}
+	.next-chapter { 
+		max-width: 94%; 
+		margin: 0 auto;
+	}
+}
+
+// Portrait tablets
+@media only screen and (max-width: $medWidth) {
+	.article-nav-container {
+		.overlay-coming-soon {
+			top: 50%;
+			height: 50%;
+		}
+		.coming-soon-date {
+			font-size: 1em;
+			font-weight: bold;
+		}
+	}
+
+	.article-header .image {
+		height: 45vh;
+	}
+
+	.content {
+		.pull-quote.text p { 
+			font-size: 1.4em; 
+			br { display: none; }
+		}
+	}
+
+}
+
+// Big phones, small tablets
+@media only screen and (max-width: $smallWidth) {
+
+	.special-feature-misc {
+		display: none;
+	}
+
+	.article-title-container {
+		margin: 5px $medScreenMargin 0 0;
+		float: right;
+		width: auto;
+	}
+
+	.article-nav-container {
+		&.fixed {
+			height: auto;
+			padding: 10px 0;
+		}
+		&.footer {
+			padding: 0 0 3em 0;
+		}
+
+		.nav-extra, .nav {
+			width: 100%;
+			float: none;
+			height: auto;
+			/* .clearfix; */
+		}
+
+		.about-the-series {
+			.title {
+				text-align: center;
+			}
+		}
+
+		.nav {
+			margin-bottom: 1em;
+			li {
+				a {
+					border-right-style: solid;					
+				}
+				&:first-child a { border-left-width: 0; } 
+				&:last-child a { border-right-width: 0; } 
+			}			
+		}
+
+		.appendix {
+			li {
+				float: left;
+				padding: 0;
+				margin-right: 10px;
+				margin-bottom: 0;
+				padding-right: 10px;
+				border-right: 1px solid $trspOrange;
+				&:first-child {
+					border-right: none;
+					padding-right: 0;
+					margin-right: 0;
+				};
+				&:last-child {
+					border-right: none;
+					padding-right: 0;
+					margin-right: 0;
+				};
+			}
+
+			.title {
+				display: inline;
+				&:after {
+					content: ': ';
+				};
+			}
+		}
+	} 
+
+	.article-header {
+		padding: $medScreenMargin;
+		
+		.header {
+			margin-top: 0;
+			margin-bottom: .5em;
+		}
+
+		.byline {
+			/* font-size: .8em; */
+		}
+
+		.author {
+			padding: 1em 0;
+			margin: 0;
+			font-size: .7em;
+			&:before { display: none; }
+		}
+	}
+
+
+	.content {
+		/* .font-size(16);*/
+		.pull-quote.text p { 
+			font-size: 1.4em; 
+			padding: 1em 0;
+		}
+		.pull-quote.text,
+		.pull-quote.pull-left,
+		.pull-quote.pull-right,
+		.pull-quote.large-image {
+			max-width: none;
+			float: none;
+			margin-left: $medScreenMargin;
+			margin-right: $medScreenMargin;
+			margin-bottom: 1em;
+		}
+		.pull-quote .paragraph-container {
+			& p, & .caption {
+				font-size: 0.8em;
+				margin: 0.5em 0.7em;
+			}
+		}
+
+		p {
+			/*.font-size(16); */
+			margin-bottom: 0.75em;
+		}
+	}
+	.next-chapter { 
+			max-width: none;
+			float: none;
+			margin-left: $medScreenMargin;
+			margin-right: $medScreenMargin;
+	}
+
+	.timeline {
+
+		.vco-notouch .vco-slider,
+		.vco-slider {
+
+			.vco-navigation {
+				.flag-content {
+					.thumbnail {
+						display: none;
+					}
+				}
+			}
+
+			.slider-item .content .content-container .text { 
+				width:100% !important;
+				max-width:100% !important;
+				min-width:100% !important;
+				display: block !important;
+			}
+			.slider-item {
+				width: 90% !important;
+				margin-left: 5%;
+			}
+			.slider-item .content .content-container {
+				display: block !important; 
+				width: 96% !important; 
+				margin-left: -120px;
+			}
+			.text .container {
+				width: 100% !important;
+			}
+			.media, 
+			.media-wrapper,
+			.media-container,
+			.media-shadow {
+				display: none !important
+			}
+
+			.nav-next, .nav-previous {
+				width: 5% !important;
+				.nav-container {
+					width: auto;
+				}
+				.date, .title { display: none;}
+				.icon {
+					margin: 0;
+				}
+				&:hover {
+					.icon {
+						margin: 0;
+					}					
+				};
+			}
+
+			.nav-next {
+				left: auto !important;
+				right: 0 !important;
+			}
+		}
+
+	}
+
+}
+
+// Phones
+@media only screen and (max-width: $smallerWidth) {
+	.article-title-container {
+		.article-title {
+			display: none;
+		}
+	}
+
+}

@@ -6,9 +6,11 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><%= appname %></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+        <title>⚠ REPLACE WITH TITLE ⚠ | The Global Mail</title>
+        <meta name="description" content="⚠ REPLACE WITH DESCRIPTION ⚠ ">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.5">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/png">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,800italic,400,800,700" rel="stylesheet">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
@@ -16,69 +18,57 @@
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild --><% } %>
+
+        <meta property="og:title" content="⚠ REPLACE WITH TITLE ⚠ ">
+        <meta property="og:description" content="⚠ REPLACE WITH DESCRIPTION ⚠ ">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="http://<%=project%>.theglobalmail.org/">
+        <meta property="fb:admins" content="259806917383998">
+        <!--<meta property="og:image" content="http://<%=project%>-assets.theglobalmail.org/images/soldier-silhouetted-2.jpg">-->
+
+        <script type="text/javascript" src="//use.typekit.net/pyz3jsr.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     </head>
     <body>
-        <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 
-        <% if (compassBootstrap) { %>
-        <div class="container">
-            <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                <h3 class="text-muted"><%= appname %></h3>
-            </div>
+    <!--[if lt IE 9]>
+      <p id="ie8-or-less-message">Unfortunately, you are using an outdated browser! The Global Mail's visualisations require a more current version. Please consider using Google Chrome, Firefox, Opera, Safari, Internet Explorer 10+ or any other standards compliant browser or <a href="http://browsehappy.com/">upgrade your browser today</a>  to better experience this site.</p>
+    <![endif]-->
 
-            <div class="jumbotron">
-                <h1>'Allo, 'Allo!</h1>
-                <p class="lead">Always a pleasure scaffolding your apps.</p>
-                <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-            </div>
+  <div class="pre-load-background"></div>
 
-            <div class="row marketing">
-                <div class="col-lg-6">
-                    <h4>HTML5 Boilerplate</h4>
-                    <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
+  <header class="navbar special-feature" role="banner">
+    <a href="http://www.theglobalmail.org/" class="brand" title="Go to The Global Mail">The Global Mail</a>
+    <div class="article-title-container">
+      <span class="article-title">
+        ⚠  REPLACE WITH TITLE ⚠ 
+      </span>
+      <i class="icon-reorder burger"></i>
+    </div>
+    <div class="special-feature-misc">
+      <div class="share-button twitter">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="TheGlobalMail" data-hashtags="⚠ REPLACE HASHTAG ⚠">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </div>
+      <div class="share-button facebook">
+        <div class="fb-like" data-send="false" data-layout="button_count" data-width="45" data-show-faces="false" data-colorscheme="light" data-action="like"></div>
+      </div>
+    </div>
+  </header>
 
-                    <h4>Bootstrap</h4>
-                    <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
+  <div id="main" role="main">
+    REPLACE BODY
+  </div>
 
-                    <% if (includeModernizr) { %><h4>Modernizr</h4>
-                    <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-                    <% } %>
-
-                    <% if (includeRequireJS) { %><h4>RequireJS</h4>
-                    <p>RequireJS is a JavaScript file and module loader. It is optimized for in-browser use, but it can be used in other JavaScript environments, like Rhino and Node.</p>
-                    <% } %>
-                </div>
-            </div>
-
-            <div class="footer">
-                <p>♥ from the Yeoman team</p>
-            </div>
-
-        </div>
-        <% } else { // compassBootstrap %>
-        <div class="hero-unit">
-          <h1>'Allo, 'Allo!</h1>
-          <p>You now have</p>
-          <ul>
-            <li>HTML5 Boilerplate</li>
-            <% if (includeModernizr) { %><li>Modernizr</li><% } %>
-            <% if (includeRequireJS) { %><li>RequireJS</li><% } %>
-          </ul>
-        </div>
-        <% } // compassBootstrap %>
+  <!--[if gte IE 9] -->
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/jquery.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
+
+  <!-- <![endif]-->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -87,7 +77,19 @@
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
+            ga('create','UA-REPLACE-X');ga('send','pageview');
+        </script>
+
+        <!-- FB stuff -->
+        <div id="fb-root"></div>
+        <script>
+          (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
         </script>
     </body>
 </html>
