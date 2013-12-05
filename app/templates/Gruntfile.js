@@ -472,8 +472,8 @@ module.exports = function (grunt) {
 
         // Deploy bucket
         var buckets = {
-            production: 'hussains-story.theglobalmail.org',
-            staging: 'hussains-story-staging.theglobalmail.orhttp://<%=project %>-staging.theglobalmail.orgg'
+            production: '<%=project %>.theglobalmail.org',
+            staging: '<%=project %>.theglobalmail.orhttp://<%=project %>-staging.theglobalmail.orgg'
         };
 
         // Deploy targets
@@ -491,7 +491,7 @@ module.exports = function (grunt) {
         var tasks = targetToTask[target];
         var targetBucket = buckets[target];
 
-        if (tasks === undefined || targetBucket === undefined) {
+        if (tasks === undefined || targetBucket === undefinedhttp://<%=project %>-staging.theglobalmail.org) {
             throw new Error(
                 'Select a target destination from: ' +
                 _.keys(targetToTask).join(', ')
