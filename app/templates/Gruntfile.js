@@ -7,6 +7,8 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var path = require('path');
+
 module.exports = function (grunt) {
     // show elapsed time at the end
     require('time-grunt')(grunt);
@@ -21,11 +23,11 @@ module.exports = function (grunt) {
         },
         watch: {<% if (coffee) { %>
             coffee: {
-                files: ['<%%= yeoman.app %>/scripts/{,*/}*.coffee'],
+                files: ['<%%= yeoman.app %>/scripts/**/*.coffee'],
                 tasks: ['coffee:dist']
             },
             coffeeTest: {
-                files: ['test/spec/{,*/}*.coffee'],
+                files: ['test/spec/{,*/}**/*.coffee'],
                 tasks: ['coffee:test']
             },<% } %>
             compass: {
@@ -52,7 +54,7 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 livereload: 35729,
-                // Allow access from other machiens
+                // Allow access from other machines
                 hostname: '0.0.0.0'
             },
             livereload: {
@@ -188,7 +190,7 @@ module.exports = function (grunt) {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
                     // `name` and `out` is set by grunt-usemin
-                    baseUrl: '<%%= yeoman.app %>/scripts',
+                    baseUrl: '.tmp/scripts',
                     optimize: 'none',
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
@@ -298,6 +300,27 @@ module.exports = function (grunt) {
         },
         // Put files not handled in other tasks here
         copy: {
+            tmp: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '.tmp',
+                    src: ['scripts/*.js']
+              },{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '.tmp',
+                    src: ['bower_components/**']
+              },{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '.tmp',
+                    src: ['templates/*']
+                }]
+            },
             dist: {
                 files: [{
                     expand: true,
@@ -329,7 +352,20 @@ module.exports = function (grunt) {
                 src: ['<%%= cdn.dist.src %>'],
                 cdn: 'http://<%=project %>-staging.theglobalmail.org'
             }
-        },<% if (includeModernizr) { %>
+        },
+        s3: {
+            options: {
+                region: 'ap-southeast-2',
+                cacheTTL: 0,
+                accessKeyId: "<%= aws.accessKeyId %>",
+                secretAccessKey: "<%= aws.secretAccessKey %>",
+                bucket: "<%= aws.targetBucket %>"
+            },
+            build: {
+                cwd: "dist/",
+                src: "**"
+            }
+        }, <% if (includeModernizr) { %>
         modernizr: {
             devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
             outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
@@ -392,24 +428,79 @@ module.exports = function (grunt) {
         'jasmine'<% } %>
     ]);
 
-    grunt.registerTask('build', [
-        'clean:dist',
-        'useminPrepare',
-        'concurrent:dist',
-        'autoprefixer',<% if (includeRequireJS) { %>
-        'requirejs',<% } %>
-        'concat',
-        'cssmin',
-        'uglify',<% if (includeModernizr) { %>
-        'modernizr',<% } %>
-        'copy:dist',
-        'rev',
-        'usemin'
-    ]);
+    grunt.registerTask('build', function(target) {
+        var tasks = [
+            'clean:dist',
+            'useminPrepare',
+            'concurrent:dist',
+            'autoprefixer',<% if (includeRequireJS) { %>
+            'requirejs',<% } %>
+            'concat',
+            'cssmin',
+            'uglify',<% if (includeModernizr) { %>
+            'modernizr',<% } %>
+            'copy:dist',
+            'rev',
+            'usemin'
+        ];
+
+        // allow building with different CDN URLs
+        if (target === 'staging') {
+          tasks.push('cdn:staging');
+        } else if (target !== 'dev') {
+          tasks.push('cdn:dist');
+        }
+        
+        grunt.task.run(tasks);
+    })
 
     grunt.registerTask('default', [
-        'jshint',
+        //'jshint', disabled for coffeescript
         'test',
         'build'
     ]);
+
+    grunt.registerTask('deploy', function(target) {
+      // Build and deploy (TODO add CORS configuration for font-awesome)
+        var _ = grunt.util._;
+
+        try{
+            grunt.config.data.aws = grunt.file.readJSON(path.join(process.env.HOME, '.tgm-aws-deploy-credentials.json'));
+        }catch(e){
+            throw new Error('You will need to create ~/.tgm-aws-deploy-credentials.json before deploying');
+        }
+
+        // Deploy bucket
+        var buckets = {
+            production: 'hussains-story.theglobalmail.org',
+            staging: 'hussains-story-staging.theglobalmail.orhttp://<%=project %>-staging.theglobalmail.orgg'
+        };
+
+        // Deploy targets
+        var targetToTask = {
+            production: [
+                'build:production',
+                's3'
+            ],
+            staging: [
+                'build:staging',
+                's3'
+            ]
+        };
+
+        var tasks = targetToTask[target];
+        var targetBucket = buckets[target];
+
+        if (tasks === undefined || targetBucket === undefined) {
+            throw new Error(
+                'Select a target destination from: ' +
+                _.keys(targetToTask).join(', ')
+            );
+        }
+
+        grunt.config.data.aws.targetBucket = targetBucket;
+
+        grunt.task.run(tasks);
+    });
 };
+

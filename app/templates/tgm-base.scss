@@ -1,27 +1,12 @@
 @import 'tgm-mixins';
-
-$parFontSize: 20;
-$parFontSizePx: 20px;
-$contentParaWidth: 620px;
-
-$orange:      rgb(253, 137, 57);
-$trspOrange:  rgba(253, 137, 57, 0.3);
-$darkOrange:  darken($orange, 15%);
-$white:       rgb(255, 255, 255);
-$cream:       rgb(254, 255, 230);
-$lightCream:  lighten($cream, 4%);
-$trspCream:   rgba(254, 255, 230,0.3);
-$darkBrown:   #170f0b;
-$brown:       rgb(58, 40, 35);
-$trspDarkBrown:   rgba(25, 16, 12,0.92);
-$trspBlack:   rgba(0,0,0,0.5);
-$trspGray:    rgba(120,120,120,0.5);
+@import 'app-variables';
+@import 'sass-bootstrap/lib/_mixins';
 
 body {
   font-size: 100%;
   line-height: 1.5;
   color: #333;
-  background-color: $lightCream;
+  background-color: $color-bg;
 }
 
 .navbar.special-feature {
@@ -64,14 +49,14 @@ body {
   .burger {
     font-size: 1.8em;
     margin: 0 0 0 8px;
-    color: $cream;
+    color: $color-text;
   }
 }
 
 .article-title {
   font-size: 1.6em;
   line-height: 32px;
-  color: $cream;
+  color: $color-text;
   font-family: $font-family-sans-serif;
   font-weight: 600;
   text-transform: uppercase;
@@ -80,24 +65,24 @@ body {
 
 .article-nav-container {
   text-align: left;
-  $fixedArticleNavHeight: 180px;
-  $navbarHeight: 48px;
-  $fixedArticleNavPaddingTop: 20px;
+  $fixed-article-nav-height: 180px;
+  $navbar-height: 48px;
+  $fixed-article-nav-padding-top: 20px;
   @include clearfix;
   &.fixed {
-    background-color: $trspDarkBrown;
+    background-color: $accent-color-dark;
     position: fixed;
     width: 100%;
-    height: $fixedArticleNavHeight;
+    height: $fixed-article-nav-height;
     // Initialise outside the viewport, inline css takes over afterwards
     top: -9999px;
     z-index: 3;
     @include transform(translateZ(0));
     @include transition(top 0.5s ease-in-out);
-    padding-top: $fixedArticleNavPaddingTop;
+    padding-top: $fixed-article-nav-padding-top;
     &.visible {
-      top: $navbarHeight;
-      @include box-shadow(0 2px 10px $trspBlack);
+      top: $navbar-height;
+      @include box-shadow(0 2px 10px $color-text);
     }
   }
 
@@ -106,23 +91,23 @@ body {
     padding: 6em 0;
 
     .nav {
-      li a { border-right-color: $orange; }
-      li:first-child a { border-left-color: $orange; };
+      li a { border-right-color: $accent-color-primary; }
+      li:first-child a { border-left-color: $accent-color-primary; };
     }
 
     .overlay-coming-soon { color: $gray; }
 
-    .article-nav .article-nav-title { color: $darkOrange }
+    .article-nav .article-nav-title { color: $accent-color-dark; }
 
     .nav-extra {
       a, p {
         color: #333;
       }
       a:hover {
-        color: $darkOrange;
+        color: $accent-color-dark;;
       };
       .title {
-        color: $darkOrange;
+        color: $accent-color-dark;;
       }
     }
   }
@@ -132,21 +117,21 @@ body {
     float: left;
     margin: 0;
     li a {
-      border-right: 1px dotted $trspOrange;
+      border-right: 1px dotted $accent-color-trsp;
       &,
       &:hover {
         background-color: transparent !important;
       }
     }
       li:first-child a {
-        border-left: 1px dotted $trspOrange;        
+        border-left: 1px dotted $accent-color-trsp;        
       };
   }
 
   .nav-extra {
     font-size: 1.4em;
     font-family: $font-family-sans-serif;
-    color: $cream;
+    color: $accent-color-light;
     width: 21%;
     float: left;
     position: relative;
@@ -158,12 +143,12 @@ body {
     .title {
       text-transform: uppercase;
       font-weight: bold;
-      color: $orange;
+      color: $accent-color-primary;
       letter-spacing: 0.1em;
       padding: 0 1em 0em 1em;
     }
     a {
-      color: $cream;
+      color: $accent-color-light;
       background-color: transparent;
       text-transform: uppercase;
       font-size: 90%;
@@ -171,7 +156,7 @@ body {
       font-weight: bold;
       text-decoration: none;
       &:hover {
-        color: $orange;
+        color: $accent-color-primary;
       };
       i {
         font-size: 120%;
@@ -181,7 +166,7 @@ body {
   }
 
   .about-the-series {
-    height: $fixedArticleNavHeight - 40px;
+    height: $fixed-article-nav-height - 40px;
   }
 
   .appendix {
@@ -206,7 +191,7 @@ body {
   }
 
   .overlay-coming-soon {
-    color: $lightCream;
+    color: $accent-color-light;
     font-weight: 700;
     text-transform: uppercase;
     text-align: center;
@@ -232,7 +217,7 @@ body {
     font-size: 1.4em;
     text-transform: uppercase;
     font-weight: normal;
-    color: $orange;
+    color: $accent-color-primary;
     letter-spacing: 0.1em;
     margin-bottom: 1em;
     display: block;
@@ -258,27 +243,27 @@ body {
 }
 
 .introduction .article-nav-container.footer {
-  color: $cream;
+  color: $accent-color-light;
 
   .nav {
-    li a { border-right-color: $trspOrange; }
-    li:first-child a { border-left-color: $trspOrange; };
+    li a { border-right-color: $accent-color-trsp; }
+    li:first-child a { border-left-color: $accent-color-trsp; };
   }
 
   .overlay-coming-soon {
-    color: $lightCream;
+    color: $accent-color-light;
     opacity: 0.4;
   }
 
   .nav-extra {
     a, p {
-      color: $cream;
+      color: $accent-color-light;
     }
     a:hover {
-      color: $orange;
+      color: $accent-color-primary;
     };
     .title {
-      color: $orange;
+      color: $accent-color-primary;
     }
   }
 }
@@ -314,12 +299,12 @@ body.loading {
 }
 
 ::selection {
-  background: $orange;
-  color: $white;
+  background: $accent-color-primary;
+  color: $accent-color-light;
   text-shadow: none;
 }
 ::-moz-selection {
-  background: $orange;
-  color: $white;
+  background: $accent-color-primary;
+  color: $accent-color-light;
   text-shadow: none;
 }

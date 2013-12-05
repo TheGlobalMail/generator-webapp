@@ -1,35 +1,37 @@
+@import 'app-variables';
+
 // variable for breakpoints
-$smallerWidth:  680px;    // Phones
-$smallWidth:    780px;    // Big phones, small tablets
-$medWidth:      980px;    // Portrait tablets
-$bigWidth:      1120px;   // Landscape tablets, smaller screens
-$biggerWidth:   $bigWidth + 1px;   // Big screens (default, used as min-width)
+$smaller-width:  680px;    // -phones
+$small-width:    780px;    // -big phones, small tablets
+$med-width:      980px;    // -portrait tablets
+$big-width:      1120px;   // -landscape tablets, smaller screens
+$bigger-width:   $big-width + 1px;   // -big screens (default, used as min-width)
 
-$medScreenMargin: 20px;
-$smlScreenMargin: 10px;
+$med-screen-margin: 20px;
+$sml-screen-margin: 10px;
 
-@mixin responsiveBG($imgName) {
-  $imgBase: "/images/#{$imgName}-size";
+@mixin responsive-bg($img-name) {
+  $img-base: "/images/#{$img-name}-size";
   // default to the largest image
-  background-image: url("#{$imgBase}5.jpg");
-  //    @media only screen and (min-width: $biggerWidth)  { background-image: url("${imgBase}5.jpg"); }
-  @media only screen and (max-width: $bigWidth)     { background-image: url("#{$imgBase}4.jpg"); }
-  @media only screen and (max-width: $medWidth)     { background-image: url("#{$imgBase}3.jpg"); }
-  @media only screen and (max-width: $smallWidth)   { background-image: url("#{$imgBase}2.jpg"); }
-  @media only screen and (max-width: $smallerWidth) { background-image: url("#{$imgBase}1.jpg"); }
+  background-image: url("#{$img-base}5.jpg");
+  //    @media only screen and (min-width: $bigger-width)  { background-image: url("${img-base}5.jpg"); }
+  @media only screen and (max-width: $big-width)     { background-image: url("#{$img-base}4.jpg"); }
+  @media only screen and (max-width: $med-width)     { background-image: url("#{$img-base}3.jpg"); }
+  @media only screen and (max-width: $small-width)   { background-image: url("#{$img-base}2.jpg"); }
+  @media only screen and (max-width: $smaller-width) { background-image: url("#{$img-base}1.jpg"); }
 }
 
-@mixin responsiveBGInArticle($imgName) {
-  $imgBase: "/images/#{$imgName}-size";
+@mixin responsive-bg-in-article($img-name) {
+  $img-base: "/images/#{$img-name}-size";
   // default to the largest image
-  background-image: url("#{$imgBase}4.jpg");
-  @media only screen and (max-width: $medWidth)     { background-image: url("#{$imgBase}3.jpg"); }
-  @media only screen and (max-width: $smallWidth)   { background-image: url("#{$imgBase}2.jpg"); }
-  @media only screen and (max-width: $smallerWidth) { background-image: url("#{$imgBase}1.jpg"); }
+  background-image: url("#{$img-base}4.jpg");
+  @media only screen and (max-width: $med-width)     { background-image: url("#{$img-base}3.jpg"); }
+  @media only screen and (max-width: $small-width)   { background-image: url("#{$img-base}2.jpg"); }
+  @media only screen and (max-width: $smaller-width) { background-image: url("#{$img-base}1.jpg"); }
 }
 
 // iPad Landscape & smaller screens
-@media only screen and (max-width: $bigWidth) {
+@media only screen and (max-width: $big-width) {
 	.article-header {
 		.header {
 			letter-spacing: 0.4em;
@@ -54,8 +56,8 @@ $smlScreenMargin: 10px;
 
 	.content {
 		padding-top: 0;
-		.pull-quote.pull-left 	{ margin-left: $medScreenMargin; }
-		.pull-quote.pull-right  { margin-right: $medScreenMargin; }
+		.pull-quote.pull-left 	{ margin-left: $med-screen-margin; }
+		.pull-quote.pull-right  { margin-right: $med-screen-margin; }
 		.pull-quote.large-image { max-width: 94%; }
 		.pull-quote.text 		{ max-width: 94%; }
 	}
@@ -66,7 +68,7 @@ $smlScreenMargin: 10px;
 }
 
 // Portrait tablets
-@media only screen and (max-width: $medWidth) {
+@media only screen and (max-width: $med-width) {
 	.article-nav-container {
 		.overlay-coming-soon {
 			top: 50%;
@@ -92,14 +94,14 @@ $smlScreenMargin: 10px;
 }
 
 // Big phones, small tablets
-@media only screen and (max-width: $smallWidth) {
+@media only screen and (max-width: $small-width) {
 
 	.special-feature-misc {
 		display: none;
 	}
 
 	.article-title-container {
-		margin: 5px $medScreenMargin 0 0;
+		margin: 5px $med-screen-margin 0 0;
 		float: right;
 		width: auto;
 	}
@@ -144,7 +146,7 @@ $smlScreenMargin: 10px;
 				margin-right: 10px;
 				margin-bottom: 0;
 				padding-right: 10px;
-				border-right: 1px solid $trspOrange;
+				border-right: 1px solid $accent-color-trsp;
 				&:first-child {
 					border-right: none;
 					padding-right: 0;
@@ -167,7 +169,7 @@ $smlScreenMargin: 10px;
 	} 
 
 	.article-header {
-		padding: $medScreenMargin;
+		padding: $med-screen-margin;
 		
 		.header {
 			margin-top: 0;
@@ -199,8 +201,8 @@ $smlScreenMargin: 10px;
 		.pull-quote.large-image {
 			max-width: none;
 			float: none;
-			margin-left: $medScreenMargin;
-			margin-right: $medScreenMargin;
+			margin-left: $med-screen-margin;
+			margin-right: $med-screen-margin;
 			margin-bottom: 1em;
 		}
 		.pull-quote .paragraph-container {
@@ -218,8 +220,8 @@ $smlScreenMargin: 10px;
 	.next-chapter { 
 			max-width: none;
 			float: none;
-			margin-left: $medScreenMargin;
-			margin-right: $medScreenMargin;
+			margin-left: $med-screen-margin;
+			margin-right: $med-screen-margin;
 	}
 
 	.timeline {
@@ -287,7 +289,7 @@ $smlScreenMargin: 10px;
 }
 
 // Phones
-@media only screen and (max-width: $smallerWidth) {
+@media only screen and (max-width: $smaller-width) {
 	.article-title-container {
 		.article-title {
 			display: none;

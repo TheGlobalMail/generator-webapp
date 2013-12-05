@@ -19,7 +19,9 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 @import 'sass-bootstrap/lib/_responsive-utilities';
 
 /* TGM styles - note these will be moved to bower in the future */
+@import 'app-variables';
 @import 'tgm-mixins';
+@import 'tgm-navbar';
 @import 'tgm-base';
 @import 'tgm-responsive';
 

@@ -100,12 +100,20 @@ AppGenerator.prototype.h5bp = function h5bp() {
 
 AppGenerator.prototype.images = function images() {
   this.copy('loader.svg', 'app/images/loader.svg');
+  this.copy('tgm-strip-logo-masthead-watermark.png', 'app/images/tgm-strip-logo-masthead-watermark.png');
+  this.copy('tgm-strip-logo-masthead.png', 'app/images/tgm-strip-logo-masthead.png');
 };
 
 AppGenerator.prototype.tgmStyles = function tgmStyles() {
+  this.copy('app-variables.scss', 'app/styles/app-variables.scss');
+  this.copy('tgm-navbar.scss', 'app/styles/tgm-navbar.scss');
   this.copy('tgm-base.scss', 'app/styles/tgm-base.scss');
   this.copy('tgm-mixins.scss', 'app/styles/tgm-mixins.scss');
   this.copy('tgm-responsive.scss', 'app/styles/tgm-responsive.scss');
+};
+
+AppGenerator.prototype.aws = function aws() {
+  this.copy('aws-config.json', 'aws-config.json');
 };
 
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
