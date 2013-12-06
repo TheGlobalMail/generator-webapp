@@ -33,7 +33,8 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
       skipInstall: options['skip-install'],
       skipMessage: options['skip-install-message'],
       callback: function () {
-        exec('sh copy-tgm-styles', function (err, stdout, stderr) {
+        exec('./copy-tgm-styles', function (err, stdout, stderr) {
+          console.log('Copying default TGM styles to app/styles');
           if (err) {
             console.log('exec error:', err);
           }
