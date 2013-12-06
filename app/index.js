@@ -2,6 +2,7 @@
 var util = require('util');
 var path = require('path');
 var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
 var yeoman = require('yeoman-generator');
 
 
@@ -30,7 +31,14 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
   this.on('end', function () {
     this.installDependencies({
       skipInstall: options['skip-install'],
-      skipMessage: options['skip-install-message']
+      skipMessage: options['skip-install-message'],
+      callback: function () {
+        exec('sh copy-tgm-styles', function (err, stdout, stderr) {
+          if (err) {
+            console.log('exec error:', err);
+          }
+        });
+      }
     });
   });
 
@@ -83,6 +91,7 @@ AppGenerator.prototype.git = function git() {
 AppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.copy('_bower.json', 'bower.json');
+  this.copy('copy-tgm-styles', 'copy-tgm-styles');
 };
 
 AppGenerator.prototype.jshint = function jshint() {
