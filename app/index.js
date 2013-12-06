@@ -99,17 +99,7 @@ AppGenerator.prototype.h5bp = function h5bp() {
 };
 
 AppGenerator.prototype.images = function images() {
-  this.copy('loader.svg', 'app/images/loader.svg');
-  this.copy('tgm-strip-logo-masthead-watermark.png', 'app/images/tgm-strip-logo-masthead-watermark.png');
-  this.copy('tgm-strip-logo-masthead.png', 'app/images/tgm-strip-logo-masthead.png');
-};
-
-AppGenerator.prototype.tgmStyles = function tgmStyles() {
-  this.copy('app-variables.scss', 'app/styles/app-variables.scss');
-  this.copy('tgm-navbar.scss', 'app/styles/tgm-navbar.scss');
-  this.copy('tgm-base.scss', 'app/styles/tgm-base.scss');
-  this.copy('tgm-mixins.scss', 'app/styles/tgm-mixins.scss');
-  this.copy('tgm-responsive.scss', 'app/styles/tgm-responsive.scss');
+  this.directory('images', 'app/images/');
 };
 
 AppGenerator.prototype.aws = function aws() {
@@ -118,8 +108,7 @@ AppGenerator.prototype.aws = function aws() {
 
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
   if (this.compassBootstrap) {
-    this.copy('main.scss', 'app/styles/main.scss');
-    this.copy('app.scss', 'app/styles/app.scss');
+    this.directory('./scss', 'app/styles');
   } else {
     this.copy('main.css', 'app/styles/main.css');
   }

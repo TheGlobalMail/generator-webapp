@@ -5,7 +5,8 @@
     "sass-bootstrap": "~3.0.0",<% } %><% if (includeRequireJS) { %>
     "requirejs": "~2.1.8",<% } %><% if (includeModernizr) { %>
     "modernizr": "~2.6.2",<% } %>
-    "jquery": "~1.10.2"
+    "jquery": "~1.10.2",
+    "tgm-styles": "git@github.com:TheGlobalMail/tgm-styles.git"
   },
   "devDependencies": {}
 }
