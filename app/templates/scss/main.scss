@@ -40,13 +40,19 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 // Default scaffolding
 @import '../bower_components/tgm-styles/scss/tgm-base';
 @import '../bower_components/tgm-styles/scss/tgm-header';
-@import '../bower_components/tgm-styles/scss/tgm-responsive';
 
+// Reponsive
+@import '../bower_components/tgm-styles/scss/tgm-responsive';
+// @import 'app-responsive';
+
+@import '../bower_components/tgm-styles/scss/tgm-base-responsive';
+@import '../bower_components/tgm-styles/scss/tgm-header-responsive';
+//
 // TGM Widgets
 // @import '../bower_components/tgm-styles/scss/widgets/tgm-special-nav';
 
 // Any other app-level variables (optional)
-// @import 'app-variables';
+@import 'app-variables';
 
 // App-specific style 
 @import 'app';

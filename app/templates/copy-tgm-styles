@@ -3,7 +3,7 @@
 
 echo "Copying default TGM styles to app/styles..."
 
-declare -a files=('colors' 'type' 'mixins' 'layout')
+declare -a files=('colors' 'type' 'mixins' 'layout' 'responsive')
 
 for f in ${files[@]}
 do
