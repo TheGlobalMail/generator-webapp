@@ -304,19 +304,19 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: '<%%= yeoman.app %>',
                     dest: '.tmp',
                     src: ['scripts/*.js']
               },{
                     expand: true,
                     dot: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: '<%%= yeoman.app %>',
                     dest: '.tmp',
                     src: ['bower_components/**']
               },{
                     expand: true,
                     dot: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: '<%%= yeoman.app %>',
                     dest: '.tmp',
                     src: ['templates/*']
                 }]
@@ -329,7 +329,7 @@ module.exports = function (grunt) {
                     dest: '<%%= yeoman.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        'images/{,*/}*.{webp,gif,svg}',
+                        'images/{,*/}*.{webp,gif,svg,png}',
                         'styles/fonts/{,*/}*.*'<% if (compassBootstrap) { %>,
                         'bower_components/sass-bootstrap/fonts/*.*'<% } %>
                     ]
@@ -346,20 +346,20 @@ module.exports = function (grunt) {
         cdn: {
             dist: {
                 src: ['<%%= yeoman.dist %>/*.html', './<%%= yeoman.dist %>/styles/*.css'],
-                cdn: 'http://<%=project %>.theglobalmail.org'
+                cdn: 'http://<%= _.slugify(appname) %>.theglobalmail.org'
             },
             staging: {
                 src: ['<%%= cdn.dist.src %>'],
-                cdn: 'http://<%=project %>-staging.theglobalmail.org'
+                cdn: 'http://<%= _.slugify(appname) %>-staging.theglobalmail.org'
             }
         },
         s3: {
             options: {
                 region: 'ap-southeast-2',
                 cacheTTL: 0,
-                accessKeyId: "<%= aws.accessKeyId %>",
-                secretAccessKey: "<%= aws.secretAccessKey %>",
-                bucket: "<%= aws.targetBucket %>"
+                accessKeyId: "<%%= aws.accessKeyId %>",
+                secretAccessKey: "<%%= aws.secretAccessKey %>",
+                bucket: "<%%= aws.targetBucket %>"
             },
             build: {
                 cwd: "dist/",
@@ -432,6 +432,7 @@ module.exports = function (grunt) {
         var tasks = [
             'clean:dist',
             'useminPrepare',
+            'copy:tmp',
             'concurrent:dist',
             'autoprefixer',<% if (includeRequireJS) { %>
             'requirejs',<% } %>
@@ -472,8 +473,8 @@ module.exports = function (grunt) {
 
         // Deploy bucket
         var buckets = {
-            production: 'hussains-story.theglobalmail.org',
-            staging: 'hussains-story-staging.theglobalmail.orhttp://<%=project %>-staging.theglobalmail.orgg'
+            production: '<%= _.slugify(appname) %>.theglobalmail.org',
+            staging: '<%= _.slugify(appname) %>-staging.theglobalmail.orgg'
         };
 
         // Deploy targets
