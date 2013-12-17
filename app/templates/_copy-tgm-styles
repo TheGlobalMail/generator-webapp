@@ -8,5 +8,6 @@ declare -a files=('colors' 'type' 'mixins' 'layout' 'responsive')
 for f in ${files[@]}
 do
     cp "app/bower_components/tgm-styles/scss/_tgm-$f.scss" "app/styles/_app-$f.scss"
+    sed -i "s/\s\!default//g" app/styles/_app-$f.scss
     echo "app/bower_components/tgm-styles/scss/_tgm-$f.scss" "-->" "app/styles/_app-$f.scss"
 done

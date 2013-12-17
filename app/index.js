@@ -2,9 +2,25 @@
 var util = require('util');
 var path = require('path');
 var spawn = require('child_process').spawn;
-var exec = require('child_process').exec;
+//var exec = require('child_process').exec;
 var yeoman = require('yeoman-generator');
+var fs = require('fs');
+var through = require('through');
 
+// for copying styles over to project
+function write (buf) { this.queue(buf.toString().replace(/\s\!default/, '')); }
+function end () { this.queue(null); }
+
+function copyTgmStyles () {
+  var tr = through(write, end);
+  var scssEndings = ['colors', 'type', 'mixins', 'layout', 'responsive'];
+  var projectDir = process.cwd(); 
+  for (var i = scssEndings.length - 1; i >= 0; i--){
+    var inPath = 'app/bower_components/tgm-styles/scss/_tgm-' + scssEndings[i] + '.scss';
+    var outPath = 'app/styles/_app-' + scssEndings[i] + '.scss';
+    fs.createReadStream(inPath).pipe(tr).pipe(fs.createWriteStream(outPath));
+  }
+}
 
 var AppGenerator = module.exports = function Appgenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -33,12 +49,7 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
       skipInstall: options['skip-install'],
       skipMessage: options['skip-install-message'],
       callback: function () {
-        exec('./copy-tgm-styles', function (err, stdout, stderr) {
-          console.log('Copying default TGM styles to app/styles');
-          if (err) {
-            console.log('exec error:', err);
-          }
-        });
+        copyTgmStyles();
       }
     });
   });
@@ -92,7 +103,7 @@ AppGenerator.prototype.git = function git() {
 AppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.copy('_bower.json', 'bower.json');
-  this.copy('copy-tgm-styles', 'copy-tgm-styles');
+  this.copy('_copy-tgm-styles', 'copy-tgm-styles');
 };
 
 AppGenerator.prototype.jshint = function jshint() {
