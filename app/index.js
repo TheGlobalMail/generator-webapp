@@ -142,11 +142,24 @@ AppGenerator.prototype.writeIndex = function writeIndex() {
 
   this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
   this.indexFile = this.engine(this.indexFile, this);
-  this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', [
-    'scripts/main.js'
-  ]);
 
-  if (this.compassBootstrap) {
+  if (!this.includeRequireJS) {
+    this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', [
+      'scripts/main.js'
+    ]);
+
+    if (this.coffee) {
+      this.indexFile = this.appendFiles({
+        html: this.indexFile,
+        fileType: 'js',
+        optimizedPath: 'scripts/coffee.js',
+        sourceFileList: ['scripts/hello.js'],
+        searchPath: '.tmp'
+      });
+    }
+  }
+
+  if (this.compassBootstrap && !this.includeRequireJS) {
     // wire Twitter Bootstrap plugins
     bs = 'bower_components/sass-bootstrap/js/';
     this.indexFile = this.appendScripts(this.indexFile, 'scripts/plugins.js', [
@@ -166,6 +179,28 @@ AppGenerator.prototype.writeIndex = function writeIndex() {
   }
 };
 
+// TODO(mklabs): to be put in a subgenerator like rjs:app
+AppGenerator.prototype.requirejs = function requirejs() {
+  if (!this.includeRequireJS) {
+    return;
+  }
+
+  this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', ['bower_components/requirejs/require.js'], {
+    'data-main': 'scripts/main'
+  });
+
+  // add a basic amd module
+  this.write('app/scripts/app.js', [
+    '/*global define */',
+    'define([], function () {',
+    ' \'use strict\';\n',
+    ' return \'\\\'Allo \\\'Allo!\';',
+    '});'
+  ].join('\n'));
+
+  this.template('require_main.js', 'app/scripts/main.js');
+};
+
 AppGenerator.prototype.app = function app() {
   this.mkdir('app');
   this.mkdir('app/scripts');
@@ -179,7 +214,8 @@ AppGenerator.prototype.app = function app() {
       'console.log "\'Allo from CoffeeScript!"'
     );
   }
-  else {
+
+  if (!this.includeRequireJS) {
     this.write('app/scripts/main.js', 'console.log(\'\\\'Allo \\\'Allo!\');');
   }
 };

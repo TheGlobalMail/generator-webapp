@@ -2,7 +2,8 @@
   "name": "<%= _.slugify(appname) %>",
   "private": true,
   "dependencies": {<% if (compassBootstrap) { %>
-    "sass-bootstrap": "~3.0.0",<% } %><% if (includeModernizr) { %>
+    "sass-bootstrap": "~3.0.0",<% } %><% if (includeRequireJS) { %>
+    "requirejs": "~2.1.8",<% } %><% if (includeModernizr) { %>
     "modernizr": "~2.6.2",<% } %>
     "jquery": "~1.10.2",
     "tgm-styles": "git@github.com:TheGlobalMail/tgm-styles.git"
