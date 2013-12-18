@@ -300,7 +300,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%%= yeoman.dist %>',
+                    cwd: '<%%= yeoman.app %>',
                     src: '{,*/}*.html',
                     dest: '<%%= yeoman.dist %>'
                 }]
@@ -446,7 +446,6 @@ module.exports = function (grunt) {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    // `name` and `out` is set by grunt-usemin
                     baseUrl: '.tmp/scripts',
                     optimize: 'none',
                     preserveLicenseComments: false,
@@ -513,6 +512,7 @@ module.exports = function (grunt) {
             'autoprefixer',<% if (includeRequireJS) { %>
             'requirejs',<% } %>
             'concat',
+            'htmlmin',
             'cssmin',
             'uglify',<% if (includeModernizr) { %>
             'modernizr',<% } %>
