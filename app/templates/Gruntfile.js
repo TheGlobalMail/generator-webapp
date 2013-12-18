@@ -178,7 +178,6 @@ module.exports = function (grunt) {
                 }]
             }
         },<% } %>
-
         // Compiles Sass to CSS and generates necessary files if requested
         compass: {
             options: {
@@ -219,6 +218,13 @@ module.exports = function (grunt) {
                     src: '{,*/}*.css',
                     dest: '.tmp/styles/'
                 }]
+            }
+        },
+        // Automatically inject Bower components into the HTML file
+        'bower-install': {
+            app: {
+                html: '<%%= yeoman.app %>/index.html',
+                ignorePath: '<%%= yeoman.app %>/'
             }
         },
         // not used since Uglify task does concat,
@@ -314,15 +320,22 @@ module.exports = function (grunt) {
         //         }
         //     }
         // },
-        // uglify: {
-        //     dist: {
-        //         files: {
-        //             '<%%= yeoman.dist %>/scripts/scripts.js': [
-        //                 '<%%= yeoman.dist %>/scripts/scripts.js'
-        //             ]
-        //         }
-        //     }
-        // },
+         uglify: {
+             dist: {
+                 files: {
+                     '<%%= yeoman.dist %>/scripts/main.js': [
+                         '<%%= yeoman.dist %>/scripts/main.js'
+                     ]
+                 }
+             },
+             requirejs: {
+                 files: {
+                     '<%= yeoman.dist %>/scripts/libs/requirejs/require.js': [
+                          '<%= yeoman.dist %>/scripts/libs/requirejs/require.js'
+                     ]
+                 }
+              }
+         },
         // concat: {
         //     dist: {}
         // },
@@ -364,6 +377,10 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
+            requirejs: {
+                src: '<%= yeoman.app %>/bower_components/requirejs/require.js',
+                dest: '<%= yeoman.dist %>/scripts/libs/requirejs/require.js'
+            },
             styles: {
                 expand: true,
                 dot: true,
@@ -386,15 +403,15 @@ module.exports = function (grunt) {
             options: {
                 region: 'ap-southeast-2',
                 cacheTTL: 0,
-                accessKeyId: "<%%= aws.accessKeyId %>",
-                secretAccessKey: "<%%= aws.secretAccessKey %>",
-                bucket: "<%%= aws.targetBucket %>"
+                accessKeyId: "<%= aws.accessKeyId %>",
+                secretAccessKey: "<%= aws.secretAccessKey %>",
+                bucket: "<%= aws.targetBucket %>"
             },
             build: {
                 cwd: "dist/",
                 src: "**"
             }
-        }, <% if (includeModernizr) { %>
+        },<% if (includeModernizr) { %>
         modernizr: {
             devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
             outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
@@ -432,15 +449,12 @@ module.exports = function (grunt) {
                     // `name` and `out` is set by grunt-usemin
                     baseUrl: '.tmp/scripts',
                     optimize: 'none',
-                    // TODO: Figure out how to make sourcemaps work with grunt-usemin
-                    // https://github.com/yeoman/grunt-usemin/issues/30
-                    //generateSourceMaps: true,
-                    // required to support SourceMaps
-                    // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true
-                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
+                    wrap: true,
+                    name: 'main',
+                    out: '<%%= yeoman.dist %>/scripts/main.js',
+                    mainConfigFile: '<%%= yeoman.app %>/scripts/main.js'
                 }
             }
         },
@@ -503,6 +517,8 @@ module.exports = function (grunt) {
             'uglify',<% if (includeModernizr) { %>
             'modernizr',<% } %>
             'copy:dist',
+            'copy:requirejs',
+            'uglify:requirejs',
             'rev',
             'usemin'
         ];
@@ -515,7 +531,7 @@ module.exports = function (grunt) {
         }
         
         grunt.task.run(tasks);
-    })
+    });
 
     grunt.registerTask('default', [
         //'jshint', disabled for coffeescript
