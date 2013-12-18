@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # The Global Mail Web app generator
+=======
+# Web app generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-webapp.png?branch=master)](http://travis-ci.org/yeoman/generator-webapp) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+>>>>>>> upstream/master
 
 Yeoman generator that scaffolds out a front-end web app for The Global Mail
 news apps and visualisations.
@@ -19,10 +23,9 @@ news apps and visualisations.
 * Built-in preview server with LiveReload
 * Automagically compile CoffeeScript & Compass
 * Automagically lint your scripts
-* Automagically wire up your Bower components. Supported both [with](https://github.com/yeoman/grunt-bower-requirejs) and [without](https://github.com/stephenplusplus/grunt-bower-install) (new) RequireJS.
+* Automagically wire up your Bower components with [bower-install](https://github.com/stephenplusplus/grunt-bower-install).
 * Awesome Image Optimization (via OptiPNG, pngquant, jpegtran and gifsicle)
 * Mocha Unit Testing with PhantomJS
-* Optional - RequireJS
 * Optional - Twitter Bootstrap for SASS
 * Optional - Leaner Modernizr builds (new)
 
@@ -32,8 +35,9 @@ For more information on what `generator-webapp` can do for you, take a look at t
 
 - Install: `npm install -g generator-webapp`
 - Run: `yo webapp`
-- Run `grunt` for building and `grunt server` for preview
+- Run `grunt` for building and `grunt serve` for preview
 
+Note: `grunt server` was previously used for previewing in earlier versions of the project and is being deprecated in favor of `grunt serve`.
 
 ## Options
 
@@ -41,7 +45,7 @@ For more information on what `generator-webapp` can do for you, take a look at t
 
   Skips the automatic execution of `bower` and `npm` after scaffolding has finished.
 
-* `--test-framework <framework>`
+* `--test-framework=<framework>`
 
   Defaults to `mocha`. Can be switched for another supported testing framework like `jasmine`.
 

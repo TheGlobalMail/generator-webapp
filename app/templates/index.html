@@ -12,10 +12,13 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/png">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,800italic,400,800,700" rel="stylesheet">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild --><% if (includeModernizr) { %>
-        <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild --><% } %>
 
@@ -61,13 +64,11 @@
   </div>
 
   <!--[if gte IE 9] -->
-
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/jquery.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
-
   <!-- <![endif]-->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

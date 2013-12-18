@@ -2,24 +2,30 @@
 var util = require('util');
 var path = require('path');
 var spawn = require('child_process').spawn;
-//var exec = require('child_process').exec;
 var yeoman = require('yeoman-generator');
 var fs = require('fs');
-var through = require('through');
-
-// for copying styles over to project
-function write (buf) { this.queue(buf.toString().replace(/\s\!default/, '')); }
-function end () { this.queue(null); }
 
 function copyTgmStyles () {
-  var tr = through(write, end);
-  var scssEndings = ['colors', 'type', 'mixins', 'layout', 'responsive'];
-  var projectDir = process.cwd(); 
-  for (var i = scssEndings.length - 1; i >= 0; i--){
-    var inPath = 'app/bower_components/tgm-styles/scss/_tgm-' + scssEndings[i] + '.scss';
-    var outPath = 'app/styles/_app-' + scssEndings[i] + '.scss';
-    fs.createReadStream(inPath).pipe(tr).pipe(fs.createWriteStream(outPath));
-  }
+  console.log('Copying default TGM styles...');
+
+  var scssFiles = ['colors', 'type', 'mixins', 'layout', 'responsive'];
+  var appDir = process.cwd() + '/app';
+
+  scssFiles.forEach(function (fileEnding) {
+    var inScss = '/bower_components/tgm-styles/scss/_tgm-' + fileEnding + '.scss';
+    var outScss = '/styles/_app-' + fileEnding + '.scss';
+    var inPath = appDir + inScss;
+    var outPath = appDir + outScss;
+    fs.readFile(inPath, 'utf8', function (err, data) {
+      if (err) return console.log(err);
+      var replaceDefault = data.replace(/\s\!default/g, '');
+
+      fs.writeFile(outPath, replaceDefault, 'utf8', function (err) {
+        if (err) return console.log(err);
+        console.log('copied: ' + inScss + ' --> ' + outScss);
+      });
+    });
+  });
 }
 
 var AppGenerator = module.exports = function Appgenerator(args, options, config) {
@@ -35,24 +41,20 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
   this.includeModernizr = true;
 
   // for hooks to resolve on mocha by default
-  if (!options['test-framework']) {
-    options['test-framework'] = 'mocha';
-  }
+  options['test-framework'] = this.testFramework;
 
   // resolved to mocha by default (could be switched to jasmine for instance)
-  this.hookFor('test-framework', { as: 'app' });
-
-  this.mainCoffeeFile = 'console.log "\'Allo from CoffeeScript!"';
-
-  this.on('end', function () {
-    this.installDependencies({
-      skipInstall: options['skip-install'],
-      skipMessage: options['skip-install-message'],
-      callback: function () {
-        copyTgmStyles();
+  this.hookFor('test-framework', {
+    as: 'app',
+    options: {
+      options: {
+        'skip-install': options['skip-install-message'],
+        'skip-message': options['skip-install']
       }
-    });
+    }
   });
+
+  this.options = options;
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
@@ -103,7 +105,7 @@ AppGenerator.prototype.git = function git() {
 AppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.copy('_bower.json', 'bower.json');
-  this.copy('_copy-tgm-styles', 'copy-tgm-styles');
+  //this.copy('_copy-tgm-styles', 'copy-tgm-styles');
 };
 
 AppGenerator.prototype.jshint = function jshint() {
@@ -136,65 +138,32 @@ AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
 };
 
 AppGenerator.prototype.writeIndex = function writeIndex() {
+  var bs;
 
   this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
   this.indexFile = this.engine(this.indexFile, this);
+  this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', [
+    'scripts/main.js'
+  ]);
 
-  if (!this.includeRequireJS) {
-    this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', [
-      'scripts/main.js'
-    ]);
-
-    if (this.coffee) {
-      this.indexFile = this.appendFiles({
-        html: this.indexFile,
-        fileType: 'js',
-        optimizedPath: 'scripts/coffee.js',
-        sourceFileList: ['scripts/hello.js'],
-        searchPath: '.tmp'
-      });
-    }
-  }
-
-  if (this.compassBootstrap && !this.includeRequireJS) {
+  if (this.compassBootstrap) {
     // wire Twitter Bootstrap plugins
+    bs = 'bower_components/sass-bootstrap/js/';
     this.indexFile = this.appendScripts(this.indexFile, 'scripts/plugins.js', [
-      'bower_components/sass-bootstrap/js/affix.js',
-      'bower_components/sass-bootstrap/js/alert.js',
-      'bower_components/sass-bootstrap/js/dropdown.js',
-      'bower_components/sass-bootstrap/js/tooltip.js',
-      'bower_components/sass-bootstrap/js/modal.js',
-      'bower_components/sass-bootstrap/js/transition.js',
-      'bower_components/sass-bootstrap/js/button.js',
-      'bower_components/sass-bootstrap/js/popover.js',
-      'bower_components/sass-bootstrap/js/carousel.js',
-      'bower_components/sass-bootstrap/js/scrollspy.js',
-      'bower_components/sass-bootstrap/js/collapse.js',
-      'bower_components/sass-bootstrap/js/tab.js'
+      bs + 'affix.js',
+      bs + 'alert.js',
+      bs + 'dropdown.js',
+      bs + 'tooltip.js',
+      bs + 'modal.js',
+      bs + 'transition.js',
+      bs + 'button.js',
+      bs + 'popover.js',
+      bs + 'carousel.js',
+      bs + 'scrollspy.js',
+      bs + 'collapse.js',
+      bs + 'tab.js'
     ]);
   }
-};
-
-// TODO(mklabs): to be put in a subgenerator like rjs:app
-AppGenerator.prototype.requirejs = function requirejs() {
-  if (!this.includeRequireJS) {
-    return;
-  }
-
-  this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', ['bower_components/requirejs/require.js'], {
-    'data-main': 'scripts/main'
-  });
-
-  // add a basic amd module
-  this.write('app/scripts/app.js', [
-    '/*global define */',
-    'define([], function () {',
-    '    \'use strict\';\n',
-    '    return \'\\\'Allo \\\'Allo!\';',
-    '});'
-  ].join('\n'));
-
-  this.template('require_main.js', 'app/scripts/main.js');
 };
 
 AppGenerator.prototype.app = function app() {
@@ -205,10 +174,27 @@ AppGenerator.prototype.app = function app() {
   this.write('app/index.html', this.indexFile);
 
   if (this.coffee) {
-    this.write('app/scripts/hello.coffee', this.mainCoffeeFile);
+    this.write(
+      'app/scripts/main.coffee',
+      'console.log "\'Allo from CoffeeScript!"'
+    );
   }
-
-  if (!this.includeRequireJS) {
+  else {
     this.write('app/scripts/main.js', 'console.log(\'\\\'Allo \\\'Allo!\');');
   }
+};
+
+AppGenerator.prototype.install = function () {
+  if (this.options['skip-install']) {
+    return;
+  }
+
+  var done = this.async();
+  this.installDependencies({
+    skipMessage: this.options['skip-install-message'],
+    skipInstall: this.options['skip-install'],
+    callback: function () {
+      copyTgmStyles();
+    }.bind(this)
+  });
 };
