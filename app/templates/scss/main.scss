@@ -1,3 +1,4 @@
+<% if (projectType == 'webapp') { %>
 $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 
 /* Below is a subset of bootstrap. To use all of bootstrap uncomment: */
@@ -53,6 +54,9 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 
 // Any other app-level variables (optional)
 @import '_app-variables';
-
+<% } %>
+<% if (projectType == 'iframe') { %>
+@import '../bower_components/tgm-styles/scss/widgets/_tgm-iframe-viz';
+<% } %>
 // App-specific style 
 @import '_app';

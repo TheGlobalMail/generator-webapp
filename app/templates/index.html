@@ -7,20 +7,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>⚠ REPLACE WITH TITLE ⚠ | The Global Mail</title>
+      <% if (projectType == 'webapp') { %>
         <meta name="description" content="⚠ REPLACE WITH DESCRIPTION ⚠ ">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.5">
         <link rel="shortcut icon" href="/favicon.ico" type="image/png">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,800italic,400,800,700" rel="stylesheet">
+      <% } %>
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css styles/vendor.css -->
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild --> <% if (includeModernizr) { %>
+        <!-- endbuild --> <% if (includeModernizr && projectType == 'webapp') { %>
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild --><% } %>
 
+      <% if (projectType == 'webapp') { %>
         <meta property="og:title" content="⚠ REPLACE WITH TITLE ⚠ ">
         <meta property="og:description" content="⚠ REPLACE WITH DESCRIPTION ⚠ ">
         <meta property="og:type" content="website">
@@ -30,6 +33,7 @@
 
         <script type="text/javascript" src="//use.typekit.net/pyz3jsr.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+      <% } %>
     </head>
     <body>
 
@@ -37,6 +41,7 @@
       <p id="ie8-or-less-message">Unfortunately, you are using an outdated browser! The Global Mail's visualisations require a more current version. Please consider using Google Chrome, Firefox, Opera, Safari, Internet Explorer 10+ or any other standards compliant browser or <a href="http://browsehappy.com/">upgrade your browser today</a>  to better experience this site.</p>
     <![endif]-->
 
+<% if (projectType == 'webapp') { %>
   <div class="pre-load-background"></div>
 
   <header class="navbar special-feature" role="banner">
@@ -57,9 +62,33 @@
       </div>
     </div>
   </header>
+<% } %>
 
   <div id="main" role="main">
+  <% if (projectType == 'iframe') { %>
+    <header class="viz-overview">
+      <h1 class="viz-title">
+        Sup title
+      </h1>
+      <p><strong>
+        Here you may describe the contents of the chart below in a few carefully crafted lines of text. Try your best not to be too wordy, though, as readers have short attention spans.
+      </strong></p>
+    </header>
+
+    <div id="chart"></div>
+
+    <div class="credit">
+      <p class="source">
+        Data: <a href="http://www.ask.com/?o=10181&jr=true">Ask Jeeves</a>
+      </p>
+      <a class="tgm-watermark" href="http://theglobalmail.org" target="_blank" title="The Global Mail">
+            theglobalmail.org
+      </a>
+    </div>
+  <% } %>
+  <% if (projectType == 'webapp') { %>
     REPLACE BODY
+  <% } %>
   </div>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

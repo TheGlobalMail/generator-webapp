@@ -42,6 +42,11 @@ util.inherits(AppGenerator, yeoman.generators.Base);
 AppGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
+  var projectTypeChoices = [
+    { name: 'Webapp', value: 'webapp', },
+    { name: 'Embedded iframe', value: 'iframe' }
+  ];
+
   var bowerChoices = [
     { value: 'jquery#1.10.2', checked: true },
     { name: 'tgm-styles (deps: sass-bootstrap)', value: 'git@github.com:TheGlobalMail/tgm-styles.git', checked: true},
@@ -51,6 +56,7 @@ AppGenerator.prototype.askFor = function askFor() {
     { name: 'lodash' },
     { name: 'font-awesome' }
   ];
+
 
   // welcome message
   if (!this.options['skip-welcome-message']) {
@@ -72,15 +78,24 @@ AppGenerator.prototype.askFor = function askFor() {
       }
     },
     {
+      name: 'projectType',
+      type: 'list',
+      message: 'What type of project is this?',
+      required: true,
+      default: 'webapp',
+      choices: projectTypeChoices
+    },
+    {
       name: 'bowerOpts',
-      message: 'Which libraries shall we install?',
       type: 'checkbox',
+      message: 'Which libraries shall we install?',
       choices: bowerChoices
     }
   ];
 
   this.prompt(prompts, function (answers) {
     this.project = answers.project;
+    this.projectType = answers.projectType;
     this.bowerOpts = answers.bowerOpts;
     cb();
   }.bind(this));
@@ -102,7 +117,7 @@ AppGenerator.prototype.git = function git() {
 AppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.copy('_bower.json', 'bower.json');
-  this.bowerInstall(this.bowerOpts, { save: true });
+  this.bowerInstall(this.bowerOpts, { save: true }, copyTgmStyles);
   //this.copy('_copy-tgm-styles', 'copy-tgm-styles');
 };
 
@@ -129,7 +144,9 @@ AppGenerator.prototype.aws = function aws() {
 
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
   if (this.compassBootstrap) {
-    this.directory('./scss', 'app/styles');
+    this.template('./scss/main.scss', 'app/styles/main.scss');
+    this.copy('./scss/_app.scss', 'app/styles/_app.scss');
+    this.copy('./scss/_app-variables.scss', 'app/styles/_app-variables.scss');
   } else {
     this.copy('main.css', 'app/styles/main.css');
   }
@@ -224,9 +241,6 @@ AppGenerator.prototype.install = function () {
   var done = this.async();
   this.installDependencies({
     skipMessage: this.options['skip-install-message'],
-    skipInstall: this.options['skip-install'],
-    callback: function () {
-      copyTgmStyles();
-    }.bind(this)
+    skipInstall: this.options['skip-install']
   });
 };
