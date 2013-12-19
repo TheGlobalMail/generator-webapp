@@ -5,6 +5,7 @@ var spawn = require('child_process').spawn;
 var yeoman = require('yeoman-generator');
 var copyTgmStyles = require('./copyTgmStyles');
 
+
 var AppGenerator = module.exports = function Appgenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
@@ -41,27 +42,46 @@ util.inherits(AppGenerator, yeoman.generators.Base);
 AppGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
+  var bowerChoices = [
+    { value: 'jquery#1.10.2', checked: true },
+    { name: 'tgm-styles (deps: sass-bootstrap)', value: 'git@github.com:TheGlobalMail/tgm-styles.git', checked: true},
+    { name: 'highcharts' },
+    { name: 'd3' },
+    { name: 'jquery.scrollTo' },
+    { name: 'lodash' },
+    { name: 'font-awesome' }
+  ];
+
   // welcome message
   if (!this.options['skip-welcome-message']) {
     console.log(this.yeoman);
     console.log('This is the generator for news apps and visualisations for The Global Mail.');
   }
 
-  var prompts = [{
-    name: 'project',
-    message: 'What is the short name for the project?',
-    default: this.appname.replace(/ /g, '-'),
-    required: true,
-    validate: function(input){
-      if (!input.match(/^[a-zA-Z0-9-_]+$/)){
-        return 'Only use alphanumerics and dashes and underscores';
+  var prompts = [
+    {
+      name: 'project',
+      message: 'What is the short name for the project?',
+      default: this.appname.replace(/ /g, '-'),
+      required: true,
+      validate: function(input){
+        if (!input.match(/^[a-zA-Z0-9-_]+$/)){
+          return 'Only use alphanumerics and dashes and underscores';
+        }
+        return true;
       }
-      return true;
+    },
+    {
+      name: 'bowerOpts',
+      message: 'Which libraries shall we install?',
+      type: 'checkbox',
+      choices: bowerChoices
     }
-  }];
+  ];
 
   this.prompt(prompts, function (answers) {
     this.project = answers.project;
+    this.bowerOpts = answers.bowerOpts;
     cb();
   }.bind(this));
 };
@@ -82,6 +102,7 @@ AppGenerator.prototype.git = function git() {
 AppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.copy('_bower.json', 'bower.json');
+  this.bowerInstall(this.bowerOpts, { save: true });
   //this.copy('_copy-tgm-styles', 'copy-tgm-styles');
 };
 
