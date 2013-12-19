@@ -2,6 +2,7 @@
 # The Global Mail Web app generator
 =======
 # Web app generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-webapp.png?branch=master)](http://travis-ci.org/yeoman/generator-webapp) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 >>>>>>> upstream/master
 
 Yeoman generator that scaffolds out a front-end web app for The Global Mail
@@ -10,12 +11,22 @@ news apps and visualisations.
 ## TODO
 
 * Add favicon
-* add styles
-* add header
-* add cdn url 
-* add iframe 
-* add deploy to aws
+* fix cdn 
+* make grunt check whether we were too lazy to add facebook/analytics
+* more work setting solid css defaults in [tgm-styles](https://github.com/TheGlobalMail/tgm-styles)
+* prompt asking which bower things you want
+* grunt:setup for buckets, dns and cdn
+
+## MAYBE?
+
+* similar to styles repo, develop repo of js widgets (eg Sri Lanka nav, parallax)
+* iframe-specific css for embedded charts and such
 * add sharing (lazy load) 
+
+## DONE?
+
+* add header
+* add deploy to aws
 
 ## Features
 
