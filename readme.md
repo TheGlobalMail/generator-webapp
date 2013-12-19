@@ -9,8 +9,8 @@ news apps and visualisations.
 * fix cdn 
 * make grunt check whether we were too lazy to add facebook/analytics
 * more work setting solid css defaults in [tgm-styles](https://github.com/TheGlobalMail/tgm-styles)
-* prompt asking which bower things you want
 * grunt:setup for buckets, dns and cdn
+
 
 ## MAYBE?
 
@@ -18,10 +18,13 @@ news apps and visualisations.
 * iframe-specific css for embedded charts and such
 * add sharing (lazy load) 
 
+
 ## DONE?
 
 * add header
 * add deploy to aws
+* prompt asking which bower things you want
+* prompt that scaffolds out either embedded iframe or webapp html/css
 
 ## Features
 
@@ -71,3 +74,4 @@ If not, `generator-webapp` is fork-friendly and you can always maintain a custom
 ## License
 
 [BSD license](http://opensource.org/licenses/bsd-license.php)
+
