@@ -392,11 +392,11 @@ module.exports = function (grunt) {
         cdn: {
             dist: {
                 src: ['<%%= yeoman.dist %>/*.html', './<%%= yeoman.dist %>/styles/*.css'],
-                cdn: 'http://<%= _.slugify(appname) %>.theglobalmail.org'
+                cdn: 'http://<%= _.slugify(appname) %>-assets.theglobalmail.org'
             },
             staging: {
                 src: ['<%%= cdn.dist.src %>'],
-                cdn: 'http://<%= _.slugify(appname) %>-staging.theglobalmail.org'
+                cdn: 'http://<%= _.slugify(appname) %>-staging-assets.theglobalmail.org'
             }
         },
         s3: {
