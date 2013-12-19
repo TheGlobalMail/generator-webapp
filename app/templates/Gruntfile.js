@@ -403,9 +403,9 @@ module.exports = function (grunt) {
             options: {
                 region: 'ap-southeast-2',
                 cacheTTL: 0,
-                accessKeyId: "<%= aws.accessKeyId %>",
-                secretAccessKey: "<%= aws.secretAccessKey %>",
-                bucket: "<%= aws.targetBucket %>"
+                accessKeyId: "<%%= aws.accessKeyId %>",
+                secretAccessKey: "<%%= aws.secretAccessKey %>",
+                bucket: "<%%= aws.targetBucket %>"
             },
             build: {
                 cwd: "dist/",
@@ -467,6 +467,12 @@ module.exports = function (grunt) {
         }<% } %>
     });
 
+    // Load AWS config
+    try{
+        grunt.config.data.aws = grunt.file.readJSON(path.join(process.env.HOME, '.tgm-aws-deploy-credentials.json'));
+    }catch(e){
+        throw new Error('You will need to create ~/.tgm-aws-deploy-credentials.json before deploying');
+    }
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -542,12 +548,6 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy', function(target) {
       // Build and deploy (TODO add CORS configuration for font-awesome)
         var _ = grunt.util._;
-
-        try{
-            grunt.config.data.aws = grunt.file.readJSON(path.join(process.env.HOME, '.tgm-aws-deploy-credentials.json'));
-        }catch(e){
-            throw new Error('You will need to create ~/.tgm-aws-deploy-credentials.json before deploying');
-        }
 
         // Deploy bucket
         var buckets = {
