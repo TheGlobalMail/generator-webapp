@@ -405,7 +405,9 @@ module.exports = function (grunt) {
                 cacheTTL: 0,
                 accessKeyId: "<%%= aws.accessKeyId %>",
                 secretAccessKey: "<%%= aws.secretAccessKey %>",
-                bucket: "<%%= aws.targetBucket %>"
+                bucket: "<%%= aws.targetBucket %>",
+                createBucket: true,
+                enableWeb: true
             },
             build: {
                 cwd: "dist/",
