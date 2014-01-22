@@ -413,6 +413,20 @@ module.exports = function (grunt) {
                 cwd: "dist/",
                 src: "**"
             }
+        },
+        route53: {
+          options: {
+            accessKeyId: "<%%= aws.accessKeyId %>",
+            secretAccessKey: "<%%= aws.secretAccessKey %>",
+            //dryRun: true,
+            zones: {
+              'theglobalmail.org': [{
+                name: '<%= _.slugify(appname) %>.theglobalmail.org',
+                type: 'CNAME',
+                values: ['<%= _.slugify(appname) %>.theglobalmail.org.s3-website-ap-southeast-2.amazonaws.com']
+              }]
+            }
+          },
         },<% if (includeModernizr) { %>
         modernizr: {
             devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
