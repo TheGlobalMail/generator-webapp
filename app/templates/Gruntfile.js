@@ -390,6 +390,9 @@ module.exports = function (grunt) {
             }
         },
         cdn: {
+            options: {
+              flatten: true
+            },
             dist: {
                 src: ['<%%= yeoman.dist %>/*.html', './<%%= yeoman.dist %>/styles/*.css'],
                 cdn: 'http://<%= _.slugify(appname) %>-assets.theglobalmail.org'
@@ -575,6 +578,7 @@ module.exports = function (grunt) {
         var targetToTask = {
             production: [
                 'build:production',
+                'route53',
                 's3'
             ],
             staging: [
