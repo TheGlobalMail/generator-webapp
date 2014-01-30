@@ -3,6 +3,15 @@
 Yeoman generator that scaffolds out a front-end web app for The Global Mail
 news apps and visualisations.
 
+How to use:
+
+  1. `git clone git@github.com:TheGlobalMail/generator-webapp.git
+  generator-tgm-webapp`
+  2. `cd generator-tgm-webapp`
+  3. `npm link`
+  4. `mkdir new-project && cd new-project`
+  5. `yo tgm-webapp`
+
 ## TODO
 
 * Add favicon
@@ -74,4 +83,5 @@ If not, `generator-webapp` is fork-friendly and you can always maintain a custom
 ## License
 
 [BSD license](http://opensource.org/licenses/bsd-license.php)
+
 
