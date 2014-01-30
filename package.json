@@ -13,6 +13,12 @@
   "homepage": "https://github.com/yeoman/generator-webapp",
   "bugs": "https://github.com/yeoman/generator-webapp/issues",
   "author": "Chrome Developer Relations",
+  "contributors": [
+    {
+      "name": "Nikhil Sonnad",
+      "email": "nikhil@theoldbeggar.com"
+    }
+  ],
   "main": "app/index.js",
   "repository": {
     "type": "git",

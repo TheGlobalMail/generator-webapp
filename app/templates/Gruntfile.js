@@ -205,7 +205,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-
         // Add vendor prefixed styles
         autoprefixer: {
             options: {
@@ -289,19 +288,19 @@ module.exports = function (grunt) {
         htmlmin: {
             dist: {
                 options: {
-                    collapseBooleanAttributes: true,
-                    //collapseWhitespace: true,
-                    removeAttributeQuotes: true,
-                    removeCommentsFromCDATA: true,
-                    removeEmptyAttributes: true,
-                    removeOptionalTags: true,
-                    removeRedundantAttributes: true,
-                    useShortDoctype: true
+                    //collapseBooleanAttributes: true,
+                    ////collapseWhitespace: true,
+                    //removeAttributeQuotes: true,
+                    //removeCommentsFromCDATA: true,
+                    //removeEmptyAttributes: true,
+                    //removeOptionalTags: true,
+                    //removeRedundantAttributes: true,
+                    //useShortDoctype: true
                 },
                 files: [{
                     expand: true,
                     cwd: '<%%= yeoman.app %>',
-                    src: '{,*/}*.html',
+                    src: '*.html',
                     dest: '<%%= yeoman.dist %>'
                 }]
             }
@@ -320,22 +319,6 @@ module.exports = function (grunt) {
         //         }
         //     }
         // },
-         uglify: {
-             dist: {
-                 files: {
-                     '<%%= yeoman.dist %>/scripts/main.js': [
-                         '<%%= yeoman.dist %>/scripts/main.js'
-                     ]
-                 }
-             },
-             requirejs: {
-                 files: {
-                     '<%= yeoman.dist %>/scripts/libs/requirejs/require.js': [
-                          '<%= yeoman.dist %>/scripts/libs/requirejs/require.js'
-                     ]
-                 }
-              }
-         },
         // concat: {
         //     dist: {}
         // },
@@ -376,10 +359,6 @@ module.exports = function (grunt) {
                         'bower_components/sass-bootstrap/fonts/*.*'<% } %>
                     ]
                 }]
-            },
-            requirejs: {
-                src: '<%= yeoman.app %>/bower_components/requirejs/require.js',
-                dest: '<%= yeoman.dist %>/scripts/libs/requirejs/require.js'
             },
             styles: {
                 expand: true,
@@ -448,14 +427,18 @@ module.exports = function (grunt) {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
+                    // `name` and `out` is set by grunt-usemin
                     baseUrl: '.tmp/scripts',
                     optimize: 'none',
+                    // TODO: Figure out how to make sourcemaps work with grunt-usemin
+                    // https://github.com/yeoman/grunt-usemin/issues/30
+                    //generateSourceMaps: true,
+                    // required to support SourceMaps
+                    // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true,
-                    name: 'main',
-                    out: '<%%= yeoman.dist %>/scripts/main.js',
-                    mainConfigFile: '<%%= yeoman.app %>/scripts/main.js'
+                    wrap: true
+                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
                 }
             }
         },
@@ -520,13 +503,10 @@ module.exports = function (grunt) {
             'autoprefixer',<% if (includeRequireJS) { %>
             'requirejs',<% } %>
             'concat',
-            'htmlmin',
             'cssmin',
             'uglify',<% if (includeModernizr) { %>
             'modernizr',<% } %>
             'copy:dist',
-            'copy:requirejs',
-            'uglify:requirejs',
             'rev',
             'usemin'
         ];

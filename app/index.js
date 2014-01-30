@@ -118,7 +118,6 @@ AppGenerator.prototype.bower = function bower() {
   this.copy('bowerrc', '.bowerrc');
   this.copy('_bower.json', 'bower.json');
   this.bowerInstall(this.bowerOpts, { save: true }, copyTgmStyles);
-  //this.copy('_copy-tgm-styles', 'copy-tgm-styles');
 };
 
 AppGenerator.prototype.jshint = function jshint() {
@@ -200,7 +199,9 @@ AppGenerator.prototype.requirejs = function requirejs() {
     return;
   }
 
-  this.indexFile = this.append(this.indexFile, 'body', '\n        <script data-main="js/main" src="scripts/libs/requirejs/require.js"></script>\n ');
+  this.indexFile = this.append(this.indexFile, 'body', '\n        <!-- build:js scripts/main.js -->' );
+  this.indexFile = this.append(this.indexFile, 'body', '\n        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script> ');
+  this.indexFile = this.append(this.indexFile, 'body', '\n        <!-- endbuild -->\n ');
 
   // add a basic amd module
   this.write('app/scripts/app.js', [
